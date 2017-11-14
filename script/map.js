@@ -8,7 +8,7 @@ function initMap() {
         center: sweden
     });
     document.getElementById("knapp").addEventListener('click', function () {
-        loadStoreSearchData(document.getElementById("input").value.toUpperCase());
+        loadStoreSearchData(document.getElementById("input").value);
     });
     document.getElementById("my-location").addEventListener('click', function () {
         getMyLocation(map, geocoder);
@@ -36,7 +36,7 @@ function getCity(geocoder, pos) {
                     if (results[i].types[j] === "postal_town") {
                         stad = results[i].address_components[0].short_name;
 
-                        loadStoreSearchData(stad.toUpperCase());
+                        loadStoreSearchData(stad);
                     }
                 }
             }
