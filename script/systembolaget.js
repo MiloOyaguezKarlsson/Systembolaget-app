@@ -44,6 +44,7 @@ function loadStoreSearchData(str) {
 function findStore(str, data) {
     // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
     // data.getElementsByTagName("ButikOmbud").length
+    str = str.toUpperCase;
     var store = data.getElementsByName("ButikOmbud");
     var storesAddress = [];
     var storesID = [];
@@ -52,14 +53,14 @@ function findStore(str, data) {
     for (var i = 0; i < max; i++) {
         var storeLocation = data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent;
         var notOmbud = data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent;
-        if (storeLocation == str && notOmbud !== "Ombud") {
+        if (storeLocation === str && notOmbud !== "Ombud") {
             storesAddress.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[3].textContent);
             storesID.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[1]);
         }
     }
-    console.log(storesID);
+    //console.log(storesID);
     console.log(storesAddress);
-
+    placeStores(storesAddress, str);
 
 }
 
