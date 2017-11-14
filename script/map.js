@@ -20,10 +20,6 @@ function getMyLocation(resultMap, geocoder) {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         };
-        var marker = new google.maps.Marker({
-            map: resultMap,
-            position: pos
-        });
         resultMap.setCenter(pos);
         resultMap.setZoom(10);
         getCity(geocoder, pos);
@@ -39,7 +35,8 @@ function getCity(geocoder, pos) {
                 for (var j = 0; j < results[i].types.length; j++) {
                     if (results[i].types[j] === "postal_town") {
                         stad = results[i].address_components[0].short_name;
-                        doSomething(stad);
+
+                        loadStoreSearchData(stad.toUpperCase());
                     }
                 }
             }
