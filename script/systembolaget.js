@@ -99,7 +99,7 @@ function findStore(str, data) {
     }
     console.log(storesInfo);
     console.log(storesAddress);
-
+    placeStores(storesAddress, str);
 }
 
 function getStoreIventory(storeNr, data){

@@ -1,19 +1,19 @@
 initMap();
+var geocoder = new google.maps.Geocoder();
+var map;
 function initMap() {
-    geocoder = new google.maps.Geocoder();
     var sweden = {lat: 60.128, lng: 18.643};
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         zoom: 4,
         center: sweden
     });
     document.getElementById("knapp").addEventListener('click', function () {
-        geocodeAddress(geocoder, map, document.getElementById("input").value);
+        loadStoreSearchData(document.getElementById("input").value.toUpperCase());
     });
     document.getElementById("my-location").addEventListener('click', function () {
         getMyLocation(map, geocoder);
     });
 }
-
 function getMyLocation(resultMap, geocoder) {
     navigator.geolocation.getCurrentPosition(function (position) {
         var pos = {
@@ -26,21 +26,20 @@ function getMyLocation(resultMap, geocoder) {
         });
         resultMap.setCenter(pos);
         resultMap.setZoom(10);
-        console.log(getCity(geocoder, pos));
+        getCity(geocoder, pos);
     });
-
 }
-
 function getCity(geocoder, pos) {
     var stad = "";
     geocoder.geocode({'location': pos}, function (results, status) {
+
         if (status === 'OK') {
             console.log(results);
             for (var i = 0; i < results.length; i++) { //man får många adresser för den platsen, letar då upp den av dem som är en post ort
                 for (var j = 0; j < results[i].types.length; j++) {
                     if (results[i].types[j] === "postal_town") {
                         stad = results[i].address_components[0].short_name;
-                        console.log(stad);
+                        doSomething(stad);
                     }
                 }
             }
@@ -61,11 +60,7 @@ function geocodeAddress(geocoder, resultMap, address) {
                     map: resultMap,
                     position: results[i].geometry.location
                 });
-                console.log(marker.getPosition().lat());
-                console.log(marker.getPosition().lng());
             }
-            console.log(results.length);
-
         } else {
             alert("Something went wrong");
         }
