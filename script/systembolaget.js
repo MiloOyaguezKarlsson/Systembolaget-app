@@ -35,10 +35,32 @@ function loadStoreSearchData(str) {
         },
         datatype: "xml",
         error: function() {
-            alert("Error: Something went wrong");
+            alert("Error: Something went wrong with loding stores ");
             console.log(status);
         }
     });
+}
+
+function findStore(str, data) {
+    // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
+    // data.getElementsByTagName("ButikOmbud").length
+    var store = data.getElementsByName("ButikOmbud");
+    var storesAddress = [];
+    var storesID = [];
+    // for getting the inventory in getStore Iventory getting the store id to controll the inventory
+    var max = data.getElementsByTagName("ButikOmbud").length;
+    for (var i = 0; i < max; i++) {
+        var storeLocation = data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent;
+        var notOmbud = data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent;
+        if (storeLocation == str && notOmbud !== "Ombud") {
+            storesAddress.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[3].textContent);
+            storesID.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[1]);
+        }
+    }
+    console.log(storesID);
+    console.log(storesAddress);
+
+
 }
 
 function loadStoreInventoryData(str) {
@@ -57,6 +79,23 @@ function loadStoreInventoryData(str) {
     });
 }
 
+function getStoreIventory(storeNr, data){
+    //get the arikelnumbers for the arikels in a store
+    var inventory= [];
+
+    var max = data.getElementsByTagName("Butik").length;
+    console.log(data.getElementsByTagName("Butik")[2].artikelNr);
+    for (var i = 0; i < max; i++) {
+        // console.log(data.getElementsByTagName("Butik")[i].attributes);
+        if (data.getElementsByTagName("Butik")[i].attributes == storeNr) {
+            inventory.push(data.getElementsByTagName("Butik")[i]);
+        }
+
+    }
+    console.log(inventory);
+
+
+}
 
 function loadArtikelInfoData(str) {
     var url = "https://www.systembolaget.se/api/assortment/products/xml";
@@ -82,41 +121,9 @@ function buildTable(str, data) {
 
 }
 
-function findStore(str, data) {
-    // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
-    // data.getElementsByTagName("ButikOmbud").length
-    var store = data.getElementsByName("ButikOmbud");
-    var storesAddress = [];
-    var storesInfo = [];
-    // for getting the inventory in getStore Iventory getting the store id to controll the inventory
-    var max = data.getElementsByTagName("ButikOmbud").length;
-    for (var i = 0; i < max; i++) {
-        var storeLocation = data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent;
-        if (storeLocation.includes(str)) {
-            storesAddress.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[3].textContent);
-            storesInfo.push(data.getElementsByTagName("ButikOmbud")[i]);
-        }
-    }
-    console.log(storesInfo);
-    console.log(storesAddress);
-    placeStores(storesAddress, str);
-}
 
-function getStoreIventory(storeNr, data){
-    //get the arikelnumbers for the arikels in a store
-    var inventory= [];
 
-    var max = data.getElementsByTagName("Butik").length;
-    console.log(data.getElementsByTagName("Butik")[2].artikelNr);
-    for (var i = 0; i < max; i++) {
-        // console.log(data.getElementsByTagName("Butik")[i].attributes);
-        if (data.getElementsByTagName("Butik")[i].attributes == storeNr) {
-            inventory.push(data.getElementsByTagName("Butik")[i]);
-        }
 
-    }
-    console.log(inventory);
-}
 
 function getArtikelInfo(arikelNr, data){
     // get the info for the arikel number
