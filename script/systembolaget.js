@@ -3,8 +3,7 @@ $(document).ready(function() {
     //init
 
     //loadData();
-    //loadStoreSearchData('KALMAR');
-    loadStoreInventoryData(0801);
+    //loadStoreSearchData('KALMAR');;
     // console.log(store);
 });
 
@@ -99,6 +98,7 @@ function findStore(str, data) {
         }
     }
     console.log(storesInfo);
+    console.log(storesAddress);
 
 }
 
