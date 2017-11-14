@@ -1,0 +1,20 @@
+{
+  "name": "Systembolaget-app",
+  "homepage": "https://github.com/MiloOyaguezKarlsson/Systembolaget-app",
+  "authors": [
+    "MiloOyaguezKarlsson <mioy97001@utb.vaxjo.se>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
