@@ -1,3 +1,34 @@
+
+$(document).ready(function(){
+    //jqueryobjekt
+    $map = $("#map").hide();
+
+    $("#searchButton").click(function(){
+        loadStoreSearchData(document.getElementById("citySearchInput").value);
+        $map.slideDown();
+    });
+    $("#useMyLocation").click(function(){
+        getMyLocation(map, geocoder);
+        $map.slideDown();
+    });
+
+    $("#ageConfirmation").dialog({
+        resizable: false,
+        draggable: false,
+        height: "auto",
+        width: "auto",
+        modal: true,
+        buttons: {
+            "Jag är 20 år gammal eller äldre": function() {
+                $( this ).dialog( "close" );
+            },
+            "Jag är under 20 år gammal": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+});
+
 function placeStores(stores, city){
     for (var i = 0; i < stores.length; i++) {
         geocodeAddress(geocoder, map, stores[i] + city + " sverige");

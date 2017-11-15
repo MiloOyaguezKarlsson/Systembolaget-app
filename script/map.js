@@ -7,12 +7,6 @@ function initMap() {
         zoom: 4,
         center: sweden
     });
-    document.getElementById("knapp").addEventListener('click', function () {
-        loadStoreSearchData(document.getElementById("input").value);
-    });
-    document.getElementById("my-location").addEventListener('click', function () {
-        getMyLocation(map, geocoder);
-    });
 }
 function getMyLocation(resultMap, geocoder) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -26,17 +20,16 @@ function getMyLocation(resultMap, geocoder) {
     });
 }
 function getCity(geocoder, pos) {
-    var stad = "";
+    var city = "";
     geocoder.geocode({'location': pos}, function (results, status) {
 
         if (status === 'OK') {
-            console.log(results);
-            for (var i = 0; i < results.length; i++) { //man får många adresser för den platsen, letar då upp den av dem som är en post ort
+            for (var i = 0; i < results.length; i++) { //man får många "adresser" för den platsen, letar då upp den av dem som är en post ort/stad
                 for (var j = 0; j < results[i].types.length; j++) {
                     if (results[i].types[j] === "postal_town") {
-                        stad = results[i].address_components[0].short_name;
+                        city = results[i].address_components[0].short_name;
 
-                        loadStoreSearchData(stad);
+                        loadStoreSearchData(city);
                     }
                 }
             }

@@ -2,20 +2,35 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Systembolaget - App</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.min.css">
+
 </head>
 <body>
-    <input id="input" type="text">
-    <button id="knapp">Sök</button>
-    <button id="my-location">Använd min plats</button>
-    <div id="map"></div>
+<header>
+    <div class="jumbotron">
+        <h1>Systembolaget - App</h1>
+    </div>
+</header>
+<div id="ageConfirmation" title="Age Confirmation">
+    <p>För att använda denna sida måste du vara 20 år eller äldre</p>
+</div>
+    <div class="container mainContainer">
+        <div class="container" id="mapControls">
+            <input id="citySearchInput" type="text">
+            <button id="searchButton">Sök</button>
+            <button id="useMyLocation">Använd min plats</button>
+        </div>
+        <div id="map"></div>
+    </div>
 
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTLte023KIYAv3cy9YSWW5m3DjfvPpcxE"></script>
     <script src="script/map.js"></script>
     <script src="script/script.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="script/systembolaget.js"></script>
 </body>
 </html>
