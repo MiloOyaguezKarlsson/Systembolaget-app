@@ -5,16 +5,15 @@ $(document).ready(function() {
     //loadData();
     //loadStoreSearchData('KALMAR');;
     // console.log(store);
+    loadAllArtikels();
 });
 
-function loadData() {
-    var url = "https://www.systembolaget.se/api/assortment/stores/xml";
-
-
+function loadAllArtikels() {
+    var url = "https://www.systembolaget.se/api/assortment/products/xml";
     $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stores/xml",
+        url: "https://cors-anywhere.herokuapp.com/" + url,
         success: function(data) {
-            buildTable(data);
+            getAllInventory(data);
         },
         datatype: "xml",
 
@@ -23,6 +22,7 @@ function loadData() {
             console.log(status);
         }
     });
+
 }
 
 function loadStoreSearchData(str) {
@@ -122,10 +122,6 @@ function buildTable(str, data) {
 
 }
 
-
-
-
-
 function getArtikelInfo(arikelNr, data){
     // get the info for the arikel number
     var artikels= [];
@@ -141,10 +137,13 @@ function getArtikelInfo(arikelNr, data){
 
 function getAllInventory(data){
     var artikels =[];
+    // saves the whoel systembolaget Libary of artikels ass xml
     var max = data.getElementsByTagName("artikel").length;
     for (var i = 0; i < max; i++) {
             artikels.push(data.getElementsByTagName("artikel")[i]);
 
     }
-    console.log(artikels);
+    // Just cheking that if woked
+    console.log(artikels[1]);
+
 }
