@@ -8,6 +8,7 @@ function initMap() {
         center: sweden
     });
 }
+//funktion för att hämta ungefär vart man är nu kör sedan getCity som hämtar vilken stad/post-ort man är i
 function getMyLocation(resultMap, geocoder) {
     navigator.geolocation.getCurrentPosition(function (position) {
         var pos = {
@@ -29,7 +30,7 @@ function getCity(geocoder, pos) {
                     if (results[i].types[j] === "postal_town") {
                         city = results[i].address_components[0].short_name;
 
-                        loadStoreSearchData(city);
+                        loadStoreSearchData(city); //hämta systembolaget butiker i staden
                     }
                 }
             }
@@ -39,7 +40,7 @@ function getCity(geocoder, pos) {
     });
 }
 
-function geocodeAddress(geocoder, resultMap, address) {
+function geocodeAddress(geocoder, resultMap, address, storeID) {
     var address = address;
     geocoder.geocode({"address": address}, function (results, status) {
         if (status === "OK") {
@@ -48,12 +49,15 @@ function geocodeAddress(geocoder, resultMap, address) {
                 resultMap.setZoom(10);
                 var marker = new google.maps.Marker({
                     map: resultMap,
-                    position: results[i].geometry.location
+                    position: results[i].geometry.location,
+                    url: storeID
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                    window.location.href = "store.html?id=" + marker.url;
                 });
             }
         } else {
-            alert("Something went wrong");
+            alert("Something went wrong when geocoding " + status);
         }
     });
-
 }

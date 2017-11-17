@@ -55,13 +55,12 @@ function findStore(str, data) {
         var notOmbud = data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent;
         if (storeLocation === city && notOmbud !== "Ombud") {
             storesAddress.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[3].textContent);
-            storesID.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[1]);
+            storesID.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[1].textContent);
         }
     }
     //console.log(storesID);
     console.log(storesAddress);
-    placeStores(storesAddress, city);
-
+    placeStores(storesAddress, city, storesID);
 }
 
 function loadStoreInventoryData(str) {

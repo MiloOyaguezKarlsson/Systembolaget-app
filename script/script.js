@@ -29,8 +29,8 @@ $(document).ready(function(){
     });
 });
 
-function placeStores(stores, city){
-    for (var i = 0; i < stores.length; i++) {
-        geocodeAddress(geocoder, map, stores[i] + city + " sverige");
+function placeStores(storesAddress, city, storesID){
+    for (var i = 0; i < storesAddress.length; i++) {
+        geocodeAddress(geocoder, map, storesAddress[i] + city + " sverige", storesID[i]);
     }
 }
