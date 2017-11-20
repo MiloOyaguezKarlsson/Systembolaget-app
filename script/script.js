@@ -1,15 +1,15 @@
 
 $(document).ready(function(){
     //jqueryobjekt
-    $map = $("#map").hide();
+    $map = $("#map");//.hide();
 
     $("#searchButton").click(function(){
         loadStoreSearchData(document.getElementById("citySearchInput").value);
-        $map.slideDown();
+        //$map.slideDown();
     });
     $("#useMyLocation").click(function(){
         getMyLocation(map, geocoder);
-        $map.slideDown();
+        //$map.slideDown();
     });
 
     $("#ageConfirmation").dialog({
