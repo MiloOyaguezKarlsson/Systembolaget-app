@@ -8,23 +8,6 @@ $(document).ready(function() {
     loadAllArtikels();
 });
 
-function loadAllArtikels() {
-    var url = "https://www.systembolaget.se/api/assortment/products/xml";
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/" + url,
-        success: function(data) {
-            getAllInventory(data);
-        },
-        datatype: "xml",
-
-        error: function() {
-            alert("Error: Something went wrong");
-            console.log(status);
-        }
-    });
-
-}
-
 function loadStoreSearchData(str) {
     var url = "https://www.systembolaget.se/api/assortment/stores/xml";
     var x;
@@ -62,87 +45,138 @@ function findStore(str, data) {
     console.log(storesAddress);
     placeStores(storesAddress, city, storesID);
 }
+//
+// function loadStoreInventoryData(str) {
+//     var url = "https://www.systembolaget.se/api/assortment/stock/xml";
+//     var x;
+//     $.ajax({
+//         url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stock/xml",
+//         success: function(data) {
+//             getStoreIventory(str, data);
+//         },
+//         datatype: "xml",
+//         error: function() {
+//             alert("Error: Something went wrong");
+//             console.log(status);
+//         }
+//     });
+// }
+//
+// function getStoreIventory(storeNr, data){
+//     //get the arikelnumbers for the arikels in a store
+//     var inventory= [];
+//
+//     var max = data.getElementsByTagName("Butik").length;
+//     console.log(data.getElementsByTagName("Butik")[2].artikelNr);
+//     for (var i = 0; i < max; i++) {
+//         // console.log(data.getElementsByTagName("Butik")[i].attributes);
+//         if (data.getElementsByTagName("Butik")[i].attributes == storeNr) {
+//             inventory.push(data.getElementsByTagName("Butik")[i]);
+//         }
+//
+//     }
+//     console.log(inventory);
+//
+//
+// }
+//
+// function loadArtikelInfoData(str) {
+//     var url = "https://www.systembolaget.se/api/assortment/products/xml";
+//     var x;
+//     $.ajax({
+//         url: "https://cors-anywhere.herokuapp.com/" + url,
+//         success: function(data) {
+//             getArtikelInfo(str, data);
+//         },
+//         datatype: "xml",
+//         error: function() {
+//             alert("Error: Something went wrong");
+//             console.log(status);
+//         }
+//     });
+// }
 
-function loadStoreInventoryData(str) {
-    var url = "https://www.systembolaget.se/api/assortment/stock/xml";
-    var x;
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stock/xml",
-        success: function(data) {
-            getStoreIventory(str, data);
-        },
-        datatype: "xml",
-        error: function() {
-            alert("Error: Something went wrong");
-            console.log(status);
-        }
-    });
-}
+// function buildTable(str, data) {
+//     var x = data.getElementsByTagName("ButikOmbud")[0].childNodes[6].textContent;
+//     console.log(x);
+//     $("#content").html(data.getElementsByTagName("Info"));
+//     $("#content1").html(x);
+//
+// }
+// 
+// function getArtikelInfo(arikelNr, data){
+//     // get the info for the arikel number
+//     var artikels= [];
+//     var max = data.getElementsByTagName("artikel").length;
+//     for (var i = 0; i < max; i++) {
+//         if (data.getElementsByTagName("artikel")[i].childNodes[0]) {
+//             artikels.push(data.getElementsByTagName("artikel")[i]);
+//         }
+//     }
+//     console.log(artikels);
+//
+// }
 
-function getStoreIventory(storeNr, data){
-    //get the arikelnumbers for the arikels in a store
-    var inventory= [];
-
-    var max = data.getElementsByTagName("Butik").length;
-    console.log(data.getElementsByTagName("Butik")[2].artikelNr);
-    for (var i = 0; i < max; i++) {
-        // console.log(data.getElementsByTagName("Butik")[i].attributes);
-        if (data.getElementsByTagName("Butik")[i].attributes == storeNr) {
-            inventory.push(data.getElementsByTagName("Butik")[i]);
-        }
-
-    }
-    console.log(inventory);
-
-
-}
-
-function loadArtikelInfoData(str) {
+// ------ Artikels
+function loadAllArtikels() {
     var url = "https://www.systembolaget.se/api/assortment/products/xml";
-    var x;
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + url,
         success: function(data) {
-            getArtikelInfo(str, data);
+            getAllInventory(data);
         },
         datatype: "xml",
+
         error: function() {
             alert("Error: Something went wrong");
             console.log(status);
         }
     });
-}
-
-function buildTable(str, data) {
-    var x = data.getElementsByTagName("ButikOmbud")[0].childNodes[6].textContent;
-    console.log(x);
-    $("#content").html(data.getElementsByTagName("Info"));
-    $("#content1").html(x);
 
 }
 
-function getArtikelInfo(arikelNr, data){
-    // get the info for the arikel number
-    var artikels= [];
-    var max = data.getElementsByTagName("artikel").length;
-    for (var i = 0; i < max; i++) {
-        if (data.getElementsByTagName("artikel")[i].childNodes[0]) {
-            artikels.push(data.getElementsByTagName("artikel")[i]);
+function load3Random() {
+    var url = "https://www.systembolaget.se/api/assortment/products/xml";
+    $.ajax({
+        url: "https://cors-anywhere.herokuapp.com/" + url,
+        success: function(data) {
+            get3RandomArtikels(data);
+        },
+        datatype: "xml",
+
+        error: function() {
+            alert("Error: Something went wrong");
+            console.log(status);
         }
-    }
-    console.log(artikels);
+    });
 
 }
+
 
 function getAllInventory(data){
     var artikels =[];
     // saves the whoel systembolaget Libary of artikels ass xml
     var max = data.getElementsByTagName("artikel").length;
     for (var i = 0; i < max; i++) {
-            artikels.push(data.getElementsByTagName("artikel")[i]);
+        artikels.push(data.getElementsByTagName("artikel")[i]);
 
     }
     // Just cheking that if woked
     console.log(artikels[1]);
+
+}
+
+function get3RandomArtikels(data){
+    var artikels =[];
+
+    // get 3 artikels from the store
+    var max = data.getElementsByTagName("artikel").length;
+    for (var i = 0; i < 3; i++) {
+        var maxInt = Math.floor(Math.random() * max);
+            artikels.push(data.getElementsByTagName("artikel")[maxInt]);
+
+            console.log(artikels[i]);
+            // Just cheking that if woked
+    }
 
 }
