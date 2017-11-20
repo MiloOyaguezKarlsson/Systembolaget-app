@@ -50,7 +50,8 @@ function geocodeAddress(geocoder, resultMap, address, storeID) {
                 var marker = new google.maps.Marker({
                     map: resultMap,
                     position: results[i].geometry.location,
-                    url: storeID //läggs på url:en för affären som en parameter
+                    url: storeID, //läggs på url:en för affären som en parameter
+                    title: address
                 });
                 google.maps.event.addListener(marker, 'click', function() {
                     window.location.href = "store.html?id=" + marker.url;

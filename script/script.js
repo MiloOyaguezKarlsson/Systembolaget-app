@@ -11,7 +11,7 @@ $(document).ready(function(){
         getMyLocation(map, geocoder);
         //$map.slideDown();
     });
-
+    //jquery-ui modal
     $("#ageConfirmation").dialog({
         resizable: false,
         draggable: false,
@@ -23,7 +23,7 @@ $(document).ready(function(){
                 $( this ).dialog( "close" );
             },
             "Jag är under 20 år gammal": function() {
-                $( this ).dialog( "close" );
+                window.location.href = "under20.html";
             }
         }
     });
@@ -31,6 +31,6 @@ $(document).ready(function(){
 
 function placeStores(storesAddress, city, storesID){
     for (var i = 0; i < storesAddress.length; i++) {
-        geocodeAddress(geocoder, map, storesAddress[i] + city + " sverige", storesID[i]);
+        geocodeAddress(geocoder, map, storesAddress[i] + " " + city + " sverige", storesID[i]);
     }
 }
