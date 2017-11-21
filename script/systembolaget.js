@@ -75,17 +75,17 @@ function getStoreIventory(drink, storeID, data) {
             i = max;
         }
     }
-    console.log(inventory);
-    // getADrink(drink, inventory);
+
+    loadArtikelInfoDataForStore(inventory, drink);
 }
 
-function loadArtikelInfoData(str) {
+function loadArtikelInfoDataForStore(storeInventory, drink) {
     var url = "https://www.systembolaget.se/api/assortment/products/xml";
     var x;
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + url,
         success: function(data) {
-            getArtikelInfo(str, data);
+            getArtikelInfoForStore(storeInventory, data, drink );
         },
         datatype: "xml",
         error: function() {
@@ -95,25 +95,47 @@ function loadArtikelInfoData(str) {
     });
 }
 
-function buildTable(str, data) {
-    var x = data.getElementsByTagName("ButikOmbud")[0].childNodes[6].textContent;
-    console.log(x);
-    $("#content").html(data.getElementsByTagName("Info"));
-    $("#content1").html(x);
+function getArtikelInfoForStore(storeInventory, data, drink) {
+    //artikel id = storeInventory
 
-}
-
-function getArtikelInfo(arikelNr, data) {
     // get the info for the arikel number
-    var artikels = [];
+    var artikelsWithInfo = [];
+    console.log("he");
     var max = data.getElementsByTagName("artikel").length;
-    for (var i = 0; i < max; i++) {
-        if (data.getElementsByTagName("artikel")[i].childNodes[0]) {
-            artikels.push(data.getElementsByTagName("artikel")[i]);
+    for (var y = 0; y < storeInventory.length; y++) {
+        for (var i = 0; i < max; i++) {
+
+            if (data.getElementsByTagName("artikel")[i].childNodes[0].textContent == storeInventory[y].textContent ) {
+                artikelsWithInfo.push(data.getElementsByTagName("artikel")[i]);
+            }
         }
     }
-    console.log(artikels);
+    console.log(artikelsWithInfo);
+    getTheDrink(drink, artikelsWithInfo);
+}
 
+function getTheDrink(drink, data) {
+    var artikels = [];
+    var name2 = "";
+    var name = "";
+    var group = "";
+    // get 3 artikels from the store
+    console.log(data[1]);
+    var max = data.length;
+    for (var i = 0; i < max; i++) {
+        name2 = data[i].childNodes[4].textContent;
+        name = data[i].childNodes[3].textContent;
+        group = data[i].childNodes[10].textContent;
+        //ajfdsoj
+        if (name.includes(drink)) {
+            artikels.push(data[i]);
+        }
+        // Just cheking that if woked
+    }
+    console.log(artikels.length);
+    console.log(artikels);
+    // ut skrifts funtion
+    
 }
 
 // ------ Artikels
@@ -134,62 +156,6 @@ function loadAllArtikels() {
 
 }
 
-function loadFindADrink(drink) {
-    var url = "https://www.systembolaget.se/api/assortment/products/xml";
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/" + url,
-        success: function(data) {
-            getADrink(drink, data);
-        },
-        datatype: "xml",
-
-        error: function() {
-            alert("Error: Something went wrong");
-            console.log(status);
-        }
-    });
-
-}
-
-function getADrink(drink, data) {
-    var artikels = [];
-    var name2 = "";
-    var name = "";
-    var group = "";
-    // get 3 artikels from the store
-    console.log(data.getElementsByTagName("artikel")[12].childNodes[10]);
-    var max = data.getElementsByTagName("artikel").length;
-    for (var i = 0; i < max; i++) {
-        name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent;
-        name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent;
-        group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent;
-        if (group.contains(drink)) {
-            artikels.push(data.getElementsByTagName("artikel")[i]);
-        }
-        // Just cheking that if woked
-    }
-    console.log(artikels[i]);
-
-}
-
-function load3Random() {
-    var url = "https://www.systembolaget.se/api/assortment/products/xml";
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/" + url,
-        success: function(data) {
-            get3RandomArtikels(data);
-        },
-        datatype: "xml",
-
-        error: function() {
-            alert("Error: Something went wrong");
-            console.log(status);
-        }
-    });
-
-}
-
-
 function getAllInventory(data) {
     var artikels = [];
     // saves the whoel systembolaget Libary of artikels ass xml
@@ -203,16 +169,71 @@ function getAllInventory(data) {
 
 }
 
-function get3RandomArtikels(data) {
-    var artikels = [];
-
-    // get 3 artikels from the store
-    var max = data.getElementsByTagName("artikel").length;
-    for (var i = 0; i < 3; i++) {
-        var maxInt = Math.floor(Math.random() * max);
-        artikels.push(data.getElementsByTagName("artikel")[maxInt]);
-        console.log(artikels[i]);
-        // Just cheking that if woked
-    }
-
-}
+// function loadFindADrink(drink) {
+//     var url = "https://www.systembolaget.se/api/assortment/products/xml";
+//     $.ajax({
+//         url: "https://cors-anywhere.herokuapp.com/" + url,
+//         success: function(data) {
+//             getADrink(drink, data);
+//         },
+//         datatype: "xml",
+//
+//         error: function() {
+//             alert("Error: Something went wrong");
+//             console.log(status);
+//         }
+//     });
+//
+// }
+//
+// function getADrink(drink, data) {
+//     var artikels = [];
+//     var name2 = "";
+//     var name = "";
+//     var group = "";
+//     // get 3 artikels from the store
+//     console.log(data.getElementsByTagName("artikel")[12].childNodes[10]);
+//     var max = data.getElementsByTagName("artikel").length;
+//     for (var i = 0; i < max; i++) {
+//         name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent;
+//         name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent;
+//         group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent;
+//         if (group.contains(drink)) {
+//             artikels.push(data.getElementsByTagName("artikel")[i]);
+//         }
+//         // Just cheking that if woked
+//     }
+//     console.log(artikels[i]);
+// }
+//
+// function load3Random() {
+//     var url = "https://www.systembolaget.se/api/assortment/products/xml";
+//     $.ajax({
+//         url: "https://cors-anywhere.herokuapp.com/" + url,
+//         success: function(data) {
+//             get3RandomArtikels(data);
+//         },
+//         datatype: "xml",
+//
+//         error: function() {
+//             alert("Error: Something went wrong");
+//             console.log(status);
+//         }
+//     });
+//
+// }
+//
+//
+// function get3RandomArtikels(data) {
+//     var artikels = [];
+//
+//     // get 3 artikels from the store
+//     var max = data.getElementsByTagName("artikel").length;
+//     for (var i = 0; i < 3; i++) {
+//         var maxInt = Math.floor(Math.random() * max);
+//         artikels.push(data.getElementsByTagName("artikel")[maxInt]);
+//         console.log(artikels[i]);
+//         // Just cheking that if woked
+//     }
+//
+// }
