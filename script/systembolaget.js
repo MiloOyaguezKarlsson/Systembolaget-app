@@ -135,7 +135,7 @@ function getTheDrink(drink, data) {
     console.log(artikels.length);
     console.log(artikels);
     // ut skrifts funtion
-
+    buildSearchResultTable(artikels);
 }
 
 // ------ Artikels
