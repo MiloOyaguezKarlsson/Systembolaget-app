@@ -127,7 +127,7 @@ function getTheDrink(drink, data) {
         name = data[i].childNodes[3].textContent;
         group = data[i].childNodes[10].textContent;
         //ajfdsoj
-        if (name.includes(drink)) {
+        if (name.includes(drink) || name === drink || name2.includes(drink) || group === drink) {
             artikels.push(data[i]);
         }
         // Just cheking that if woked
@@ -135,7 +135,7 @@ function getTheDrink(drink, data) {
     console.log(artikels.length);
     console.log(artikels);
     // ut skrifts funtion
-    
+
 }
 
 // ------ Artikels
