@@ -1,3 +1,4 @@
+//script-fil för mer almänna functioner, exempelvis jquery
 
 $(document).ready(function(){
     //jqueryobjekt
@@ -31,6 +32,9 @@ $(document).ready(function(){
 
 function placeStores(storesAddress, city, storesID){
     for (var i = 0; i < storesAddress.length; i++) {
-        geocodeAddress(geocoder, map, storesAddress[i] + " " + city + " sverige", storesID[i]);
+        var formattedCity = city.toLowerCase(); //sträng för att göra om staden som är all caps till som vi vill ha det
+        formattedCity = formattedCity.charAt(0).toUpperCase() + formattedCity.slice(1);
+        console.log(formattedCity);
+        geocodeAddress(geocoder, map, storesAddress[i] + " " + formattedCity + " Sverige", storesID[i]);
     }
 }
