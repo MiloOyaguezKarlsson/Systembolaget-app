@@ -4,9 +4,6 @@ $(document).ready(function()
     var id = url.substring(url.indexOf("?"), url.length);
     var data = getDrink(id);
     renderData(data);
-    console.log(getDrinks("gin", 5));
-    //var drinks = getDrinks("gin", 5).responseJSON;
-    //console.log(drinks);
 });
 
 function getDrink(id)
@@ -22,7 +19,7 @@ function getDrink(id)
         },
         error:function(jqXHR, status, error)
         {
-            console.log("något gick fel med API-anslutningen");
+            alert("något gick fel med API-anslutningen");
             
         }
     }).responseJSON;
@@ -70,7 +67,7 @@ function getDrinks(query, amount)
         },
         error:function(jqXHR, status, error)
         {
-            console.log("något gick fel med API-anslutningen");
+            alert("något gick fel med API-anslutningen");
             
         }
     });
