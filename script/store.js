@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     document.getElementById("searchDrinkBtn").addEventListener("click", function(){
         var query = document.getElementById("searchDrinkInput").value;
-        loadStoreInventoryData(query, getStoreID());
+        loadStoreInventoryData(query.toLowerCase(), getStoreID());
     });
 });
 
@@ -54,10 +54,18 @@ function buildSearchResultTable(data, max) {
         console.log(max);
         console.log(data);
     for (var i = 0; i < max; i++) {
-        console.log(data[0].artikel);
-        console.log(data[0].artikel.childNodes);
-        table += Mustache.render("<tr><td>{{{Name}}}</td><td>{{{Varugrupp}}}</td><td>{{{Prisinklmoms}}}</td></tr>",
-            data[i].artikel.childNodes);
+        var jsonObject= {
+            Name: data[i].childNodes[3].textContent + " " +  data[i].childNodes[4].textContent,
+            Varugrupp: data[i].childNodes[10].textContent,
+            Prisinklmoms: data[i].childNodes[5].textContent
+        };
+        console.log(data[i].childNodes[10].nodeName);
+        if (data[i].childNodes[10].nodeName != "Varugrupp") {
+            jsonObject.Varugrupp = data[i].childNodes[11].textContent;
+        }
+        //console.log(data[i]);
+        // console.log(jsonObject);
+        table += Mustache.render("<tr><td>{{{Name}}}</td><td>{{{Varugrupp}}}</td><td>{{{Prisinklmoms}}}</td><td>{{Name}}</td></tr>", jsonObject);
     }
     $("#searchResult").html(table);
 }

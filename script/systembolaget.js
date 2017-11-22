@@ -110,17 +110,18 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
     var name = "";
     var group = "";
     var maxAll = storeInventory.length;
-    for (var y = 0; y < maxAll; y++) {
+    for (var y = 0; y < maxAll/6; y++) {
         for (var i = 0; i < max; i++) {
-            name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent;
-            name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent;
-            group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent;
+            name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent.toLowerCase();
+            name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent.toLowerCase();
+            group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent.toLowerCase();
 
             if (data.getElementsByTagName("artikel")[i].childNodes[0].textContent == storeInventory[y].textContent &&
             (name.includes(drink) || name === drink || name2.includes(drink) || group === drink) ) {
                 artikelsWithInfo.push(data.getElementsByTagName("artikel")[i]);
             }
         }
+        // console.log(y);
     }
     console.log(artikelsWithInfo);
     console.log("HE");
