@@ -1,4 +1,3 @@
-var stores = [];
 $(document).ready(function() {
     //init
 
@@ -11,7 +10,6 @@ $(document).ready(function() {
 function loadStoreSearchData(str) {
     console.log("Connection");
     var url = "https://www.systembolaget.se/api/assortment/stores/xml";
-    var x;
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stores/xml",
         success: function(data) {
@@ -29,29 +27,29 @@ function findStore(str, data) {
     console.log("searching for store");
     // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
     // data.getElementsByTagName("ButikOmbud").length
-    var city = str.toUpperCase();
-    var store = data.getElementsByName("ButikOmbud");
+    // var city = str.toUpperCase();
+    // var store = data.getElementsByName("ButikOmbud");
     var storesAddress = [];
     var storesID = [];
     // for getting the inventory in getStore Iventory getting the store id to controll the inventory
-    var max = data.getElementsByTagName("ButikOmbud").length;
-    for (var i = 0; i < max; i++) {
-        var storeLocation = data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent;
-        var notOmbud = data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent;
-        if (storeLocation === city && notOmbud !== "Ombud") {
+    // var max = data.getElementsByTagName("ButikOmbud").length;
+    for (var i = 0; i < data.getElementsByTagName("ButikOmbud").length; i++) {
+        // var storeLocation = data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent;
+        // var notOmbud = data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent;
+        if (data.getElementsByTagName("ButikOmbud")[i].childNodes[6].textContent ===
+        str.toUpperCase() && data.getElementsByTagName("ButikOmbud")[i].childNodes[0].textContent !== "Ombud") {
             storesAddress.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[3].textContent);
             storesID.push(data.getElementsByTagName("ButikOmbud")[i].childNodes[1].textContent);
         }
     }
     //console.log(storesID);
     // console.log(storesAddress);
-    placeStores(storesAddress, city, storesID);
+    placeStores(storesAddress, str.toUpperCase(), storesID);
 }
 
 function loadStoreInventoryData(drink, storeID) {
     console.log("Seaching for drink");
     var url = "https://www.systembolaget.se/api/assortment/stock/xml";
-    var x;
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stock/xml",
         success: function(data) {
@@ -69,14 +67,14 @@ function getStoreIventory(drink, storeID, data) {
     console.log("Getting store inventory");
     //get the arikelnumbers for the arikels in a store
     var inventory = [];
-    var max = data.getElementsByTagName("Butik").length;
-    console.log(storeID);
-    for (var i = 0; i < max; i++) {
+    // var max = data.getElementsByTagName("Butik").length;
+    // console.log(storeID);
+    for (var i = 0; i < data.getElementsByTagName("Butik").length; i++) {
         if (data.getElementsByTagName("Butik")[i].getAttribute("ButikNr") === storeID) {
             for (var y = 0; y < data.getElementsByTagName("Butik")[i].childNodes.length; y++) {
                 inventory.push(data.getElementsByTagName("Butik")[i].childNodes[y]);
             }
-            i = max;
+            i = data.getElementsByTagName("Butik").length;
         }
     }
 
@@ -85,7 +83,6 @@ function getStoreIventory(drink, storeID, data) {
 
 function loadArtikelInfoDataForStore(storeInventory, drink) {
     var url = "https://www.systembolaget.se/api/assortment/products/xml";
-    var x;
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + url,
         success: function(data) {
@@ -105,32 +102,35 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
     // get the info for the arikel number
     var artikelsWithInfo = [];
     console.log("searching for drink :" + drink);
-    var max = data.getElementsByTagName("artikel").length;
-    var name2 = "";
-    var name = "";
-    var group = "";
-    var maxAll = storeInventory.length;
-    for (var y = 0; y < maxAll/6; y++) {
-        for (var i = 0; i < max; i++) {
-            name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent.toLowerCase();
-            name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent.toLowerCase();
-            group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent.toLowerCase();
+    // var max = data.getElementsByTagName("artikel").length;
+    // var name2 = "";
+    // var name = "";
+    // var group = "";
+    // var maxAll = storeInventory.length;
+    for (var y = 0; y < storeInventory.length; y++) {
+        for (var i = 0; i < data.getElementsByTagName("artikel").length; i++) {
+            // name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent.toLowerCase();
+            // name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent.toLowerCase();
+            // group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent.toLowerCase();
 
             if (data.getElementsByTagName("artikel")[i].childNodes[0].textContent == storeInventory[y].textContent &&
-            (name.includes(drink) || name === drink || name2.includes(drink) || group === drink) ) {
-                artikelsWithInfo.push(data.getElementsByTagName("artikel")[i]);
+            (data.getElementsByTagName("artikel")[i].childNodes[3].textContent.toLowerCase().includes(drink) ||
+            data.getElementsByTagName("artikel")[i].childNodes[3].textContent.toLowerCase() === drink ||
+            data.getElementsByTagName("artikel")[i].childNodes[4].textContent.toLowerCase().includes(drink) ||
+            data.getElementsByTagName("artikel")[i].childNodes[10].textContent.toLowerCase() === drink) ) {
+            artikelsWithInfo.push(data.getElementsByTagName("artikel")[i]);
             }
         }
         // console.log(y);
     }
-    console.log(artikelsWithInfo);
-    console.log("HE");
+    // console.log(artikelsWithInfo);
+    // console.log("HE");
 
-    buildSearchResultTable(artikelsWithInfo, artikelsWithInfo.length);
+    buildSearchResultTable(artikelsWithInfo, artikelsWithInfo.length, drink);
 
     // getTheDrink(drink, artikelsWithInfo);
 }
-
+// Onödig nu mera
 function getTheDrink(drink, data) {
     var artikels = [];
     var name2 = "";
