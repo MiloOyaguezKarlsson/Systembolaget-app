@@ -2,6 +2,11 @@ $(document).ready(function(){
     getStoreID();
     loadStoreAddress();
     buildSearchResultTable();
+
+    document.getElementById("searchDrinkBtn").addEventListener("click", function(){
+        var query = document.getElementById("searchDrinkInput").value;
+        loadStoreInventoryData(query, getStoreID());
+    });
 });
 //function för att hämta affärens id från url:en
 function getStoreID(){

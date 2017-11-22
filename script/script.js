@@ -2,15 +2,23 @@
 
 $(document).ready(function(){
     //jqueryobjekt
-    $map = $("#map");//.hide();
+    $map = $("#map").hide();
 
     $("#searchButton").click(function(){
-        loadStoreSearchData(document.getElementById("citySearchInput").value);
-        //$map.slideDown();
+
+        $map.slideDown(400,function(){
+            loadStoreSearchData(document.getElementById("citySearchInput").value);
+            initMap();
+        });
+
     });
     $("#useMyLocation").click(function(){
-        getMyLocation(map, geocoder);
-        //$map.slideDown();
+
+        $map.slideDown(400,function(){
+            getMyLocation(map, geocoder);
+            initMap();
+        });
+
     });
     //jquery-ui modal
     $("#ageConfirmation").dialog({
