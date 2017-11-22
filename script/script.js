@@ -6,7 +6,7 @@ $(document).ready(function(){
 
     $("#searchButton").click(function(){
 
-        $map.slideDown(400,function(){
+        $map.slideDown(function(){
             loadStoreSearchData(document.getElementById("citySearchInput").value);
             initMap();
         });
@@ -14,7 +14,7 @@ $(document).ready(function(){
     });
     $("#useMyLocation").click(function(){
 
-        $map.slideDown(400,function(){
+        $map.slideDown(function(){
             getMyLocation(map, geocoder);
             initMap();
         });
@@ -42,7 +42,6 @@ function placeStores(storesAddress, city, storesID){
     for (var i = 0; i < storesAddress.length; i++) {
         var formattedCity = city.toLowerCase(); //sträng för att göra om staden som är all caps till som vi vill ha det
         formattedCity = formattedCity.charAt(0).toUpperCase() + formattedCity.slice(1);
-        console.log(formattedCity);
         geocodeAddress(geocoder, map, storesAddress[i] + " " + formattedCity + " Sverige", storesID[i]);
     }
 }

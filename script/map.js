@@ -4,7 +4,7 @@ var map;
 function initMap() {
     var sweden = {lat: 60.128, lng: 18.643};
     map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
+        zoom: 2,
         center: sweden
     });
 }
@@ -17,7 +17,7 @@ function getMyLocation(resultMap, geocoder) {
         };
         resultMap.setCenter(pos);
         resultMap.setZoom(10);
-        getCity(geocoder, pos);
+        getCity(geocoder, pos); //hämta vilken stad man är i beroende på sin plats
     });
 }
 function getCity(geocoder, pos) {
@@ -39,21 +39,21 @@ function getCity(geocoder, pos) {
         }
     });
 }
-
+//funktion för att placera ut markeringar på kartan utifrån en address som geocodas
 function geocodeAddress(geocoder, resultMap, address, storeID) {
     var address = address;
     geocoder.geocode({"address": address}, function (results, status) {
         if (status === "OK") {
             for (var i = 0; i < results.length; i++) {
                 resultMap.setCenter(results[i].geometry.location);
-                resultMap.setZoom(10);
+                resultMap.setZoom(12);
                 var marker = new google.maps.Marker({
                     map: resultMap,
                     position: results[i].geometry.location,
                     url: storeID, //läggs på url:en för affären som en parameter
                     title: address
                 });
-                google.maps.event.addListener(marker, 'click', function() {
+                google.maps.event.addListener(marker, 'click', function() { //"länk" till butikens sida
                     window.location.href = "store.html?id=" + marker.url;
                 });
             }
