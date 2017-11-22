@@ -133,7 +133,9 @@ function getTheDrink(drink, data) {
         // Just cheking that if woked
     }
     console.log(artikels.length);
-    console.log(artikels);
+    console.log(artikels[0]);
+    console.log(artikels[1]);
+    console.log(artikels[2]);
     // ut skrifts funtion
     buildSearchResultTable(artikels);
 }
