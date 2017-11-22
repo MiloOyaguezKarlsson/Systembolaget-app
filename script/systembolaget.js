@@ -104,7 +104,7 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
 
     // get the info for the arikel number
     var artikelsWithInfo = [];
-    console.log("he");
+    console.log("searching for drink :" + drink);
     var max = data.getElementsByTagName("artikel").length;
     for (var y = 0; y < storeInventory.length; y++) {
         for (var i = 0; i < max; i++) {
@@ -141,7 +141,7 @@ function getTheDrink(drink, data) {
     console.log(artikels[1]);
     console.log(artikels[2]);
     // ut skrifts funtion
-    buildSearchResultTable(artikels);
+    buildSearchResultTable(artikels, artikels.length);
 }
 
 // ------ Artikels
