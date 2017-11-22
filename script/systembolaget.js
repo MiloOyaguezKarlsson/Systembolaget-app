@@ -9,6 +9,7 @@ $(document).ready(function() {
 });
 
 function loadStoreSearchData(str) {
+    console.log("Connection");
     var url = "https://www.systembolaget.se/api/assortment/stores/xml";
     var x;
     $.ajax({
@@ -25,6 +26,7 @@ function loadStoreSearchData(str) {
 }
 
 function findStore(str, data) {
+    console.log("searching for store");
     // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
     // data.getElementsByTagName("ButikOmbud").length
     var city = str.toUpperCase();
@@ -42,11 +44,12 @@ function findStore(str, data) {
         }
     }
     //console.log(storesID);
-    console.log(storesAddress);
+    // console.log(storesAddress);
     placeStores(storesAddress, city, storesID);
 }
 
 function loadStoreInventoryData(drink, storeID) {
+    console.log("Seaching for drink");
     var url = "https://www.systembolaget.se/api/assortment/stock/xml";
     var x;
     $.ajax({
@@ -63,6 +66,7 @@ function loadStoreInventoryData(drink, storeID) {
 }
 
 function getStoreIventory(drink, storeID, data) {
+    console.log("Getting store inventory");
     //get the arikelnumbers for the arikels in a store
     var inventory = [];
     var max = data.getElementsByTagName("Butik").length;
