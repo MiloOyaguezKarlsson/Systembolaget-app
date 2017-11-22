@@ -106,16 +106,28 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
     var artikelsWithInfo = [];
     console.log("searching for drink :" + drink);
     var max = data.getElementsByTagName("artikel").length;
-    for (var y = 0; y < storeInventory.length; y++) {
+    var name2 = "";
+    var name = "";
+    var group = "";
+    var maxAll = storeInventory.length;
+    for (var y = 0; y < maxAll; y++) {
         for (var i = 0; i < max; i++) {
+            name = data.getElementsByTagName("artikel")[i].childNodes[3].textContent;
+            name2 = data.getElementsByTagName("artikel")[i].childNodes[4].textContent;
+            group = data.getElementsByTagName("artikel")[i].childNodes[10].textContent;
 
-            if (data.getElementsByTagName("artikel")[i].childNodes[0].textContent == storeInventory[y].textContent ) {
+            if (data.getElementsByTagName("artikel")[i].childNodes[0].textContent == storeInventory[y].textContent &&
+            (name.includes(drink) || name === drink || name2.includes(drink) || group === drink) ) {
                 artikelsWithInfo.push(data.getElementsByTagName("artikel")[i]);
             }
         }
     }
     console.log(artikelsWithInfo);
-    getTheDrink(drink, artikelsWithInfo);
+    console.log("HE");
+
+    buildSearchResultTable(artikelsWithInfo, artikelsWithInfo.length);
+
+    // getTheDrink(drink, artikelsWithInfo);
 }
 
 function getTheDrink(drink, data) {
@@ -131,7 +143,7 @@ function getTheDrink(drink, data) {
         name = data[i].childNodes[3].textContent;
         group = data[i].childNodes[10].textContent;
         //ajfdsoj
-        if (name.includes(drink) || name === drink || name2.includes(drink) || group === drink) {
+        if (name === drink || name2.includes(drink) || group === drink) {
             artikels.push(data[i]);
         }
         // Just cheking that if woked

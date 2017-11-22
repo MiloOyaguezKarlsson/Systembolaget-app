@@ -8,6 +8,9 @@ $(document).ready(function(){
         loadStoreInventoryData(query, getStoreID());
     });
 });
+
+
+
 //function för att hämta affärens id från url:en
 function getStoreID(){
     var url = location.href; //hämta urlen
@@ -43,15 +46,18 @@ function loadStoreAddress(){
         }
     });
 }
+
 function buildSearchResultTable(data, max) {
     var table_header = {name: "Namn", group: "Sort", price: "Pris", drinkSugestion: "Drink förslag"};
     var table = Mustache.render("<tr><th>{{name}}</th><th>{{group}}</th><th>{{price}}</th><th>{{drinkSugestion}}</th></tr>",
         table_header);
         console.log(max);
+        console.log(data);
     for (var i = 0; i < max; i++) {
-        console.log(data[0]);
+        console.log(data[0].artikel);
+        console.log(data[0].artikel.childNodes);
         table += Mustache.render("<tr><td>{{{Name}}}</td><td>{{{Varugrupp}}}</td><td>{{{Prisinklmoms}}}</td></tr>",
-            data[i].artikel);
+            data[i].artikel.childNodes);
     }
     $("#searchResult").html(table);
 }
