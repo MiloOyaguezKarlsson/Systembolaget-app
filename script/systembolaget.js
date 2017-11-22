@@ -3,6 +3,7 @@ $(document).ready(function() {
 });
 
 function loadStoreSearchData(str) {
+    //Connection to get the stores in a city
     console.log("Connection");
     var url = "https://www.systembolaget.se/api/assortment/stores/xml";
     $.ajax({
@@ -19,6 +20,7 @@ function loadStoreSearchData(str) {
 }
 
 function findStore(str, data) {
+    //str is the city / area to search in and data is the data that ajax found
     console.log("searching for store");
     // Finds By SokOrd of the XMLdoc and looks if str is a subbstring of that and returns all of them
     var storesAddress = [];
@@ -35,6 +37,7 @@ function findStore(str, data) {
 }
 
 function loadStoreInventoryData(drink, storeID) {
+    //drink is twaht the user searches for and storeID is in with store we are lokking in
     console.log("Seaching for drink");
     var url = "https://www.systembolaget.se/api/assortment/stock/xml";
     $.ajax({
@@ -51,8 +54,8 @@ function loadStoreInventoryData(drink, storeID) {
 }
 
 function getStoreIventory(drink, storeID, data) {
+    //get the arikelnumbers for the arikels in a store and lokking if we are lokking for that artikel
     console.log("Getting store inventory");
-    //get the arikelnumbers for the arikels in a store
     var inventory = [];
     for (var i = 0; i < data.getElementsByTagName("Butik").length; i++) {
         if (data.getElementsByTagName("Butik")[i].getAttribute("ButikNr") === storeID) {
@@ -62,7 +65,6 @@ function getStoreIventory(drink, storeID, data) {
             i = data.getElementsByTagName("Butik").length;
         }
     }
-
     loadArtikelInfoDataForStore(inventory, drink);
 }
 
@@ -87,7 +89,7 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
     // get the info for the arikel number
     var artikelsWithInfo = [];
     console.log("searching for drink :" + drink);
-    //För testning så kör vi /2 
+    //För testning så kör vi /2
     for (var y = 0; y < storeInventory.length/2; y++) {
 
         for (var i = 0; i < data.getElementsByTagName("artikel").length; i++) {
@@ -103,33 +105,6 @@ function getArtikelInfoForStore(storeInventory, data, drink) {
     }
     buildSearchResultTable(artikelsWithInfo, artikelsWithInfo.length, drink);
 }
-
-// // Onödig nu mera
-// function getTheDrink(drink, data) {
-//     var artikels = [];
-//     var name2 = "";
-//     var name = "";
-//     var group = "";
-//     // get 3 artikels from the store
-//     console.log(data[1]);
-//     var max = data.length;
-//     for (var i = 0; i < max; i++) {
-//         name2 = data[i].childNodes[4].textContent;
-//         name = data[i].childNodes[3].textContent;
-//         group = data[i].childNodes[10].textContent;
-//         //ajfdsoj
-//         if (name === drink || name2.includes(drink) || group === drink) {
-//             artikels.push(data[i]);
-//         }
-//         // Just cheking that if woked
-//     }
-//     console.log(artikels.length);
-//     console.log(artikels[0]);
-//     console.log(artikels[1]);
-//     console.log(artikels[2]);
-//     // ut skrifts funtion
-//     buildSearchResultTable(artikels, artikels.length);
-// }
 
 // ------ Artikels
 function loadAllArtikels() {
@@ -157,7 +132,5 @@ function getAllInventory(data) {
         artikels.push(data.getElementsByTagName("artikel")[i]);
 
     }
-    // Just cheking that if woked
-    console.log(artikels[1]);
 
 }
