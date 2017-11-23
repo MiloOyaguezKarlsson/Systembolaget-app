@@ -40,47 +40,6 @@ function renderData(data)
         $("#ingredients").append(str);
     }
 }
-//hämtar önskat antal drinkar
-function getDrinks(query, amount)
-{
-    var url = "http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + query;
-    var drinks;
-    
-    $.ajax({
-        url:url,
-        async:false,
-        success:function(data)
-        {
-            drinks = '{"drinks":[';
-            var check = ".";//används för att samma drink inte ska visas flera gånger
-            
-            for(var i = 0; i < amount; i++)//plockar ut ett antal drinkar
-            {
-                do
-                {
-                    //slumpar ett tal
-                    var index = Math.floor(Math.random() * data.drinks.length);
-                }
-                //om det slumpade talet finns i check så slumpar den igen
-                while(check.indexOf("." + index + ".") > 0 && check !== ".");
-                //lägger till det slumpade talet i check så att det inte kan slumpas igen
-                check += index + ".";
-                
-                //lägg till drink i jsonobjekt som sedan returneras
-                drinks += JSON.stringify(data.drinks[index]);
-            };
-            drinks += ']}';
-            drinks = replaceAll(drinks, "}{", "},{");
-            return drinks;
-        },
-        error:function(jqXHR, status, error)
-        {
-            alert("något gick fel med API-anslutningen");
-            
-        }
-    });
-    return JSON.parse(drinks);
-}
 
 function fixIngredients(data)
 {
