@@ -12,3 +12,6 @@
     margin-bottom: 50px;
     margin-top: 50px;
 }
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}

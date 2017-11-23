@@ -28,57 +28,24 @@ function getDrink(id)
 function renderData(data)
 {
     $("title").append(data.drinks[0].strDrink);
+    $("#category").append(data.drinks[0].strCategory);
     $("#name").append(data.drinks[0].strDrink);
     $("#desc").append(data.drinks[0].strInstructions);
     $("#pic").append("<img id='pic' src='" + data.drinks[0].strDrinkThumb + "'>");
-}
-//hämtar önskat antal drinkar
-function getDrinks(query, amount)
-{
-    var url = "http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + query;
-    var drinks;
-    
-    $.ajax({
-        url:url,
-        async:false,
-        success:function(data)
-        {
-            drinks = '{"drinks":[';
-            var check = ".";//används för att samma drink inte ska visas flera gånger
-            
-            for(var i = 0; i < amount; i++)//plockar ut ett antal drinkar
-            {
-                do
-                {
-                    //slumpar ett tal
-                    var index = Math.floor(Math.random() * data.drinks.length);
-                }
-                //om det slumpade talet finns i check så slumpar den igen
-                while(check.indexOf("." + index + ".") > 0 && check !== ".");
-                //lägger till det slumpade talet i check så att det inte kan slumpas igen
-                check += index + ".";
-                
-                //lägg till drink i jsonobjekt som sedan returneras
-                drinks += JSON.stringify(data.drinks[index]);
-            };
-            drinks += ']}';
-            drinks = replaceAll(drinks, "}{", "},{");
-            return drinks;
-        },
-        error:function(jqXHR, status, error)
-        {
-            alert("något gick fel med API-anslutningen");
-            
-        }
-    });
-    return JSON.parse(drinks);
+    //ingredienser
+    var ingredients = fixIngredients(data);
+    for(var i = 0; i < ingredients.length; i++)
+    {
+        var str = "<li>" + ingredients[i] + "</li>";
+        $("#ingredients").append(str);
+    }
 }
 
 function fixIngredients(data)
 {
     var temp = JSON.stringify(data);
     var ingredients = [];
-    for(var i = 0; i < 16; i++)
+    for(var i = 1; i < 15; i++)
     {
         //mea === measure
         var mea = temp.substring(temp.indexOf("strMeasure" + i), temp.indexOf("strMeasure" + (i + 1)));
@@ -89,17 +56,16 @@ function fixIngredients(data)
         //slår ihop mängd och ingrediens
         var str = mea + ing;
         //kollar om strängen är tom
-        if(str !== "")
+        if(str !== " ")
         {
             ingredients.push(str);
-            console.log(str);
         }
         else
         {
             break;
         }
     }
-    console.log("done!");
+    return ingredients;
 }
 
 function replaceAll(str, find, replace)
