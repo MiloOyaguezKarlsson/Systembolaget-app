@@ -1,32 +1,29 @@
 //script-fil för mer almänna functioner, exempelvis jquery
-
 $(document).ready(function(){
     //jqueryobjekt
     $map = $("#map").hide();
 
     $("#searchButton").click(function(){
-
         $map.slideDown(function(){
             loadStoreSearchData(document.getElementById("citySearchInput").value);
             initMap();
         });
-
     });
     $("#useMyLocation").click(function(){
-
         $map.slideDown(function(){
             getMyLocation(map, geocoder);
             initMap();
         });
-
     });
     //jquery-ui modal
     $("#ageConfirmation").dialog({
+        dialogClass: "no-close", //krysset ska inte finnas
         resizable: false,
         draggable: false,
         height: "auto",
         width: "auto",
         modal: true,
+        autoOpen: false, // kom ihåg att ta bort
         buttons: {
             "Jag är 20 år gammal eller äldre": function() {
                 $( this ).dialog( "close" );
@@ -37,7 +34,8 @@ $(document).ready(function(){
         }
     });
 });
-
+//kör geoCodeAddress funktionen för att placera ut markeringar på varje butik,
+// denna körs ifrån funktionen som hämtar butiker från systembolagets api
 function placeStores(storesAddress, city, storesID){
     for (var i = 0; i < storesAddress.length; i++) {
         var formattedCity = city.toLowerCase(); //sträng för att göra om staden som är all caps till som vi vill ha det
