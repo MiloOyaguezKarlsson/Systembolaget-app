@@ -28,9 +28,17 @@ function getDrink(id)
 function renderData(data)
 {
     $("title").append(data.drinks[0].strDrink);
+    $("#category").append(data.drinks[0].strCategory);
     $("#name").append(data.drinks[0].strDrink);
     $("#desc").append(data.drinks[0].strInstructions);
     $("#pic").append("<img id='pic' src='" + data.drinks[0].strDrinkThumb + "'>");
+    //ingredienser
+    var ingredients = fixIngredients(data);
+    for(var i = 0; i < ingredients.length; i++)
+    {
+        var str = "<li>" + ingredients[i] + "</li>";
+        $("#ingredients").append(str);
+    }
 }
 //hämtar önskat antal drinkar
 function getDrinks(query, amount)
@@ -78,7 +86,7 @@ function fixIngredients(data)
 {
     var temp = JSON.stringify(data);
     var ingredients = [];
-    for(var i = 0; i < 16; i++)
+    for(var i = 1; i < 15; i++)
     {
         //mea === measure
         var mea = temp.substring(temp.indexOf("strMeasure" + i), temp.indexOf("strMeasure" + (i + 1)));
@@ -89,17 +97,16 @@ function fixIngredients(data)
         //slår ihop mängd och ingrediens
         var str = mea + ing;
         //kollar om strängen är tom
-        if(str !== "")
+        if(str !== " ")
         {
             ingredients.push(str);
-            console.log(str);
         }
         else
         {
             break;
         }
     }
-    console.log("done!");
+    return ingredients;
 }
 
 function replaceAll(str, find, replace)
