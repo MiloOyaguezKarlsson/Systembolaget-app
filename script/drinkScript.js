@@ -27,11 +27,14 @@ function getDrink(id)
 
 function renderData(data)
 {
-    $("title").append(data.drinks[0].strDrink);
-    $("#category").append(data.drinks[0].strCategory);
-    $("#name").append(data.drinks[0].strDrink);
-    $("#desc").append(data.drinks[0].strInstructions);
-    $("#pic").append("<img id='pic' src='" + data.drinks[0].strDrinkThumb + "'>");
+    var drink = data.drinks[0];
+    
+    $("title").append(drink.strDrink);
+    $("#category").append(drink.strCategory);
+    $("#alcoholic").append(drink.strAlcoholic);
+    $("#name").append(drink.strDrink);
+    $("#desc").append(drink.strInstructions);
+    $("#thumb").append("<img id='pic' src='" + drink.strDrinkThumb + "'>");
     //ingredienser
     var ingredients = fixIngredients(data);
     for(var i = 0; i < ingredients.length; i++)
@@ -39,47 +42,6 @@ function renderData(data)
         var str = "<li>" + ingredients[i] + "</li>";
         $("#ingredients").append(str);
     }
-}
-//hämtar önskat antal drinkar
-function getDrinks(query, amount)
-{
-    var url = "http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + query;
-    var drinks;
-    
-    $.ajax({
-        url:url,
-        async:false,
-        success:function(data)
-        {
-            drinks = '{"drinks":[';
-            var check = ".";//används för att samma drink inte ska visas flera gånger
-            
-            for(var i = 0; i < amount; i++)//plockar ut ett antal drinkar
-            {
-                do
-                {
-                    //slumpar ett tal
-                    var index = Math.floor(Math.random() * data.drinks.length);
-                }
-                //om det slumpade talet finns i check så slumpar den igen
-                while(check.indexOf("." + index + ".") > 0 && check !== ".");
-                //lägger till det slumpade talet i check så att det inte kan slumpas igen
-                check += index + ".";
-                
-                //lägg till drink i jsonobjekt som sedan returneras
-                drinks += JSON.stringify(data.drinks[index]);
-            };
-            drinks += ']}';
-            drinks = replaceAll(drinks, "}{", "},{");
-            return drinks;
-        },
-        error:function(jqXHR, status, error)
-        {
-            alert("något gick fel med API-anslutningen");
-            
-        }
-    });
-    return JSON.parse(drinks);
 }
 
 function fixIngredients(data)

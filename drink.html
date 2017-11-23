@@ -4,15 +4,35 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/drinkStyle.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <a href="store.html"><button>Tillbaka</button></a>
-        <h1 id="name"></h1>
-        <h3 id="category"></h3>
-        <p id="desc"></p>
-        <ul id="ingredients"></ul>
-        <div id="pic"></div>
+
+        <div class="jumbotron">
+            <div class="container"><h1>How to alkohol</h1></div>
+        </div>
+
+        <div id="container" class="col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+            <div class="col-lg-12">
+                <div id="thumb" class="col-lg-4"><!--bild här--></div>
+                <div class="col-lg-8">
+                    <h1 id="name"></h1>
+                    <h4 id="category"></h4>
+                    <h4 id="alcoholic"></h4>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-6">
+                    <h4>Ingredienser</h4>
+                    <ul id="ingredients"></ul>
+                </div>
+                <div class="col-lg-6">
+                    <h4>anvisningar</h4>
+                    <p id="desc"></p>
+                </div>
+            </div>
+        </div>
+
         <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="script/drinkScript.js" type="text/javascript"></script>
     </body>
