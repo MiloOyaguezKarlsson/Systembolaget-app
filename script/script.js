@@ -23,7 +23,6 @@ $(document).ready(function(){
         height: "auto",
         width: "auto",
         modal: true,
-        autoOpen: false, // kom ihåg att ta bort
         buttons: {
             "Jag är 20 år gammal eller äldre": function() {
                 $( this ).dialog( "close" );
@@ -38,7 +37,7 @@ $(document).ready(function(){
 // denna körs ifrån funktionen som hämtar butiker från systembolagets api
 function placeStores(storesAddress, city, storesID){
     for (var i = 0; i < storesAddress.length; i++) {
-        var formattedCity = city.toLowerCase(); //sträng för att göra om staden som är all caps till som vi vill ha det
+        var formattedCity = city.toLowerCase(); //sträng för att göra om staden som är all caps till bara första bokstaven stor
         formattedCity = formattedCity.charAt(0).toUpperCase() + formattedCity.slice(1);
         geocodeAddress(geocoder, map, storesAddress[i] + " " + formattedCity + " Sverige", storesID[i]);
     }

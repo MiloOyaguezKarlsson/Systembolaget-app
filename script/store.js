@@ -1,17 +1,15 @@
-$(document).ready(function(){
-    getStoreID();
+$(document).ready(function () {
     loadStoreAddress();
 
-    document.getElementById("searchDrinkBtn").addEventListener("click", function(){
+    document.getElementById("searchDrinkBtn").addEventListener("click", function () {
         var query = document.getElementById("searchDrinkInput").value;
         loadStoreInventoryData(query.toLowerCase(), getStoreID());
     });
 });
 
 
-
 //function för att hämta affärens id från url:en
-function getStoreID(){
+function getStoreID() {
     var url = location.href; //hämta urlen
     var storeID = url.substring(url.indexOf("?id=") + 4); //hämta ut delen efter "?id=" för att få fram id:et
 
@@ -19,11 +17,11 @@ function getStoreID(){
 }
 
 // function för att hämta butikens address och skriva in den i en p-tagg
-function loadStoreAddress(){
+function loadStoreAddress() {
     var url = "https://www.systembolaget.se/api/assortment/stores/xml";
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/" + "https://www.systembolaget.se/api/assortment/stores/xml",
-        success: function(data) {
+        success: function (data) {
             var id = getStoreID(); //id från urlen
             var stores = data.getElementsByTagName("ButikOmbud"); //alla butiker i xml format
 
@@ -39,22 +37,20 @@ function loadStoreAddress(){
             }
         },
         datatype: "xml",
-        error: function() {
-            alert("Error: Something went wrong with loading stores ");
-            console.log(status);
+        error: function () {
+            alert("Error: Something went wrong with loading stores: " + status);
         }
     });
 }
 
+//funktion för att mata in dyckerna som söks efter i en tabellen
 function buildSearchResultTable(data, max, query) {
     var table_header = {name: "Namn", group: "Sort", price: "Pris", drinkSugestion: "Drink förslag"};
     var table = Mustache.render("<tr><th>{{name}}</th><th>{{group}}</th><th>{{price}}</th></tr>",
         table_header);
-        console.log(max);
-        console.log(data);
     for (var i = 0; i < max; i++) {
-        var jsonObject= {
-            Name: data[i].childNodes[3].textContent + " " +  data[i].childNodes[4].textContent,
+        var jsonObject = {
+            Name: data[i].childNodes[3].textContent + " " + data[i].childNodes[4].textContent,
             Varugrupp: data[i].childNodes[10].textContent,
             Prisinklmoms: data[i].childNodes[5].textContent,
         };
@@ -67,10 +63,12 @@ function buildSearchResultTable(data, max, query) {
     $("#searchResult").html(table);
     getDrinkSugestions(query);
 }
-function getDrinkSugestions(query){
+
+//funktion som hämtar 3 drinkförslag och matar in det ovanför tabellen
+function getDrinkSugestions(query) {
     var drinkSugestions = getDrinks(query, 3);
     document.getElementById("drinkSugestions").innerHTML = "Drink förslag för " + query + ": ";
-    for(var i = 0; i < drinkSugestions.drinks.length; i++){
+    for (var i = 0; i < drinkSugestions.drinks.length; i++) {
         var hrefStr = "drink.html?i=" + drinkSugestions.drinks[i].idDrink; //sträng för href till drinken
         var aNode = document.createElement("A"); //skapa en a-tagg
         var textNode = document.createTextNode(drinkSugestions.drinks[i].strDrink + ", "); //text till a-taggen
@@ -80,45 +78,43 @@ function getDrinkSugestions(query){
     }
 
 }
+//hämtar ett antal slumpade drinkar för den drycken som söktes efter
 function getDrinks(query, amount) {
     var url = "http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + query;
     var drinks;
 
     $.ajax({
-        url:url,
-        async:false,
-        success:function(data)
-        {
+        url: url,
+        async: false,
+        success: function (data) {
             drinks = '{"drinks":[';
             var check = ".";//används för att samma drink inte ska visas flera gånger
 
-            for(var i = 0; i < amount; i++)//plockar ut ett antal drinkar
-            {
-                do
-                {
+            for (var i = 0; i < amount; i++) { //plockar ut ett antal drinkar
+                do {
                     //slumpar ett tal
                     var index = Math.floor(Math.random() * data.drinks.length);
                 }
                     //om det slumpade talet finns i check så slumpar den igen
-                while(check.indexOf("." + index + ".") > 0 && check !== ".");
+                while (check.indexOf("." + index + ".") > 0 && check !== ".");
                 //lägger till det slumpade talet i check så att det inte kan slumpas igen
                 check += index + ".";
 
                 //lägg till drink i jsonobjekt som sedan returneras
                 drinks += JSON.stringify(data.drinks[index]);
-            };
+            }
+            ;
             drinks += ']}';
             drinks = replaceAll(drinks, "}{", "},{");
             return drinks;
         },
-        error:function(jqXHR, status, error)
-        {
+        error: function (jqXHR, status, error) {
             alert("något gick fel med API-anslutningen");
-
         }
     });
     return JSON.parse(drinks);
 }
+
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
