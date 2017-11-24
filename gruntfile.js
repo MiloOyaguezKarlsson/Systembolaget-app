@@ -6,13 +6,11 @@ module.exports = function(grunt) {
         uglify: {
             target: {
                 files: {
-                    "script/script.min.js": [
-                        "script/map.js",
-                        "script/store.js",
-                        "script/script.js",
-                        "script/systembolaget.js",
-                        "script/drinkScript.js"
-                    ]
+                    "script/map.min.js": ["script/map.js"],
+                    "script/script.min.js": ["script/script.js"],
+                    "script/store.min.js": ["script/store.js"],
+                    "script/drinkScript.min.js": ["script/drinkScript.js"],
+                    "script/systembolaget.min.js": ["script/systembolaget.js"]
                 }
             }
         }
