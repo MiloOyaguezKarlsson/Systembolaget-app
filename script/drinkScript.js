@@ -27,11 +27,14 @@ function getDrink(id)
 
 function renderData(data)
 {
-    $("title").append(data.drinks[0].strDrink);
-    $("#category").append(data.drinks[0].strCategory);
-    $("#name").append(data.drinks[0].strDrink);
-    $("#desc").append(data.drinks[0].strInstructions);
-    $("#pic").append("<img id='pic' src='" + data.drinks[0].strDrinkThumb + "'>");
+    var drink = data.drinks[0];
+    
+    $("title").append(drink.strDrink);
+    $("#category").append(drink.strCategory);
+    $("#alcoholic").append(drink.strAlcoholic);
+    $("#name").append(drink.strDrink);
+    $("#desc").append(drink.strInstructions);
+    $("#thumb").append("<img id='pic' src='" + drink.strDrinkThumb + "'>");
     //ingredienser
     var ingredients = fixIngredients(data);
     for(var i = 0; i < ingredients.length; i++)
